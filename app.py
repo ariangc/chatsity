@@ -23,6 +23,7 @@ def Create_app(config_filename):
     """
     app = Flask(__name__)
     app.config.from_object(config_filename)
+    db.init_app(app)
     CORS(app)
 
     from views import api_blueprint
