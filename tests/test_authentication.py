@@ -23,8 +23,8 @@ def logout(client, id_user):
     ), follow_redirects = True)
 
 def test_login_logout(client):
-    rv = login(client, app.config['USERNAME'], app.config['PASSWORD'])
+    rv = login(client, 'ariangallardo21@gmail.com', 'test_pwd21')
     assert b'error' not in rv.data
 
-    rv = logout(client, app.config['ID_USER'])
+    rv = logout(client, 1)
     assert b'Logged out succesfully.' in rv.data
