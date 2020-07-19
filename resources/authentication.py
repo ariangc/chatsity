@@ -18,7 +18,6 @@ from resources.security import Verify_password
 import status
 from flask_restful import Resource
 from sqlalchemy.exc import SQLAlchemyError
-from models.parameterSettings import ParameterSettings
 
 class SignupResource(Resource):
     def post(self):
