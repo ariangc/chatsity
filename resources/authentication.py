@@ -64,16 +64,16 @@ class SignupResource(Resource):
 
 class LoginResource(Resource):
     def post(self):
-        requestDict = request.get_json()
-        if not requestDict:
+        request_dict = request.get_json()
+        if not request_dict:
             response = {"error": "No input data provided"}
             return response, status.HTTP_400_BAD_REQUEST
         
         response = {}
 
         try:
-            email = requestDict['email']
-            password = requestDict['password']
+            email = request_dict['email']
+            password = request_dict['password']
 
             user = User.query.filter_by(email=email).first()
 
@@ -91,9 +91,11 @@ class LoginResource(Resource):
             response = {
                 'email': user.email,
                 'id' : user.id,
-                'name': user.name,
-                token: token.decode('ascii')
+                'name': user.name
             }
+
+            token_dict = {'token' : token.decode('ascii')}
+            response.update(token_dict)
             return response, status.HTTP_200_OK
         except Exception as e:
             db.session.rollback()
@@ -127,6 +129,7 @@ class LogoutResource(Resource):
         
         user.status = 1
         user.update()
+        db.session.commit()
 
         response = {
             'ok': 'Logged out succesfully.'

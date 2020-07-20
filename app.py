@@ -15,6 +15,10 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+from models.user import User
+from models.message import Message
+from models.chatroom import Chatroom
+
 def Create_app(config_filename):
     """ Creates and configures a flask app to be deployed.
     

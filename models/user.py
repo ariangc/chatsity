@@ -26,6 +26,7 @@ class User(UserMixin, AddUpdateDelete, db.Model):
     name = db.Column(db.String(100))
     password = db.Column(db.String(100))
     status = db.Column(db.Integer, default = 1)
+    messages = db.relationship("Message")
 
     def GenerateAuthToken(self, expiration = TOKEN_EXP_MINUTES):
         """ Generates an encoded token to handle authenticated user requests.
