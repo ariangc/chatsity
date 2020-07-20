@@ -2,6 +2,7 @@ from flask_httpauth import HTTPBasicAuth
 from flask_restful import Resource
 from flask import g
 from models.user import User
+from models.blacklisted_token import BlacklistedToken
 from werkzeug.security import check_password_hash
 
 auth = HTTPBasicAuth()
@@ -10,8 +11,12 @@ auth = HTTPBasicAuth()
 def Verify_password(email_or_token, password):
     # first try to authenticate by token
     user = User.VerifyAuthToken(email_or_token)
+    token = BlacklistedToken.query.filter_by(token=email_or_token).first()
     if user:
         print("Token valido!")
+    if token:
+        print("Token en lista negra")
+        return False
     if not user:
         # try to authenticate with email/password
         print("Token invalido, chekeando password")
