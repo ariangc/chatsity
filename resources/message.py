@@ -5,6 +5,7 @@ from flask import request
 from resources.security import AuthRequiredResource
 import status
 import datetime
+from app import db
 
 class MessageListResource(AuthRequiredResource):
     def get(self):

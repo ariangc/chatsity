@@ -2,6 +2,7 @@ from models.user import User
 from models.message import Message
 from models.chatroom import Chatroom
 from flask import request
+from app import db
 from resources.security import AuthRequiredResource
 import status
 import datetime
@@ -49,4 +50,4 @@ class ChatroomListResource(AuthRequiredResource):
             return response, status.HTTP_200_OK
         except Exception as e:
             response = {"error": str(e)}
-            return response, status.HTTP_200_OK
+            return response, status.HTTP_400_BAD_REQUEST
