@@ -36,9 +36,10 @@ class SignupResource(Resource):
         if user:
             response = {"error": "Email address already exists."}
             return response, status.HTTP_400_BAD_REQUEST
-        
+        print(password)
         if len(password_policy.test(password)):
             response = {"error": "Please check password strength. It should have at least 5 characters, 1 uppercase letter, 1 number and 1 special character."}
+            print("passpolicy")
             return response, status.HTTP_400_BAD_REQUEST
                
         new_user = User(email=email, password=generate_password_hash(password, method='sha256'), name=name)

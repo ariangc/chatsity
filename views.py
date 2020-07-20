@@ -17,7 +17,8 @@ from resources.authentication import SignupResource, LoginResource, LogoutResour
 from resources.user import UserResource
 from resources.chatroom import ChatroomResource, ChatroomListResource
 from resources.message import MessageListResource, GetByChatroom
-from resources.interface import InterfaceResource
+from resources.chat_gui import ChatGUIResource
+from resources.signup_gui import SignupGUIResource
 
 api_blueprint = Blueprint('api', __name__)
 api = Api(api_blueprint)
@@ -30,5 +31,6 @@ api.add_resource(UserResource, '/user')
 api.add_resource(ChatroomResource, '/chatroom/<int:id>')
 api.add_resource(ChatroomListResource, '/chatroom')
 api.add_resource(MessageListResource, '/message')
-api.add_resource(InterfaceResource, '/interface')
 api.add_resource(GetByChatroom, '/bychatroom')
+api.add_resource(ChatGUIResource, '/chat')
+api.add_resource(SignupGUIResource, '/signup')

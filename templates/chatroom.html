@@ -17,7 +17,7 @@
     <div id=msg-list>
       <label for="fmessage">Message:</label><br>
       <input type="text" id="fmessage" name="fmessage"><br>
-      <button id="submit-msg" onclick="submitMsg();"></button>
+      <button id="submit-msg" onclick="submitMsg();">Submit</button>
     </div>
   </div>
   <script type="text/javascript">
@@ -54,23 +54,38 @@
       chatrooms().then(val => {
         head_info = document.getElementById("head-info");
         for(var x of val){
-          head_info.innerHTML += "<a ml-" + parseInt(x.id_chatroom)*1000 + "id=\"back\" href=\"http://localhost:9997/api/interface?id_chatroom=" + x.id_chatroom + "\">[Join chatroom " + x.id_chatroom + "]   </a>";
+          head_info.innerHTML += "<a ml-" + parseInt(x.id_chatroom)*1000 + "id=\"back\" href=\"http://localhost:9997/api/chat?id_chatroom=" + x.id_chatroom + "\">[Join chatroom " + x.id_chatroom + "]   </a>";
         }
-        head_info.innerHTML += "<div id=\"email\" align=\"right\"> | Logged in as {{user.email}}</div>"
-        head_info.innerHTML += "<a id=\"logout\" align=\"right\" href=http://localhost:9997/api/logout>[Logout] </a>";
+        head_info.innerHTML += "<div id=\"email\" align=\"right\"> | Logged in as {{user.email}}</div>";
       });
+
+      var logout = async function(){
+        console.log("clicked!")
+        try{
+          document.execCommand("ClearAuthenticationCache");
+        } catch(e){
+          console.log(e)
+        }
+        window.close();
+      }
 
       var messages = async function (){
         const url = "http://localhost:9997/api/bychatroom?id_chatroom=" + {{chatroom.id_chatroom}};
         var res = await fetch(url);
         var lst = await res.json();
         return lst.messages;
-      }
+      };
+
 
       messages().then(val => {
         msgs = document.getElementById("msg-list");
         for(var x of val){
-          msgs.innerHTML += "<div id=\"message\"> " + x.sender + " (" + x.timestamp + "): " + x.body  + " </div>";
+          if(x.sender === "{{user.name}}"){
+            msgs.innerHTML += "<b><div id=\"message\"> " + x.sender + " (" + x.timestamp + "): " + x.body  + " </div></b>";
+          }
+          else{
+            msgs.innerHTML += "<div id=\"message\"> " + x.sender + " (" + x.timestamp + "): " + x.body  + " </div>";
+          }
         }
       }).catch(error => {
         console.log(error)
@@ -114,6 +129,10 @@
     }
     #fmessage{
       width: 500px;
+    }
+    #submit-msg{
+      width: 120px;
+      height: 30px;
     }
 </style>
 

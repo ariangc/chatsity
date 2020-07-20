@@ -7,12 +7,13 @@ import status
 import datetime
 from flask import make_response, render_template, g
 
-class InterfaceResource(AuthRequiredResource):
+class ChatGUIResource(AuthRequiredResource):
     def get(self):
         id_chatroom = int(request.args.get('id_chatroom'))
         user_details = {
             'email': g.user.email,
             'password': g.user.password,
+            'name': g.user.name,
             'id_user': g.user.id
         }
 
