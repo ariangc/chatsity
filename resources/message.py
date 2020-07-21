@@ -43,7 +43,7 @@ class MessageListResource(AuthRequiredResource):
 
         for message in messages:
             message_json = message.to_json()
-            response['messages'].add(message_json)
+            response['messages'].append(message_json)
         
         return response, status.HTTP_200_OK
 
