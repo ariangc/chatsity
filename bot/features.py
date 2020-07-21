@@ -14,4 +14,4 @@ def process_stock(stock_code):
     row = r.content.decode('ascii').split(sep = ",")
 
     print(row)
-    return "{} quote is ${} per share".format(row[0], row[3])
+    return "{} quote is ${} per share".format(row[0], row[5])

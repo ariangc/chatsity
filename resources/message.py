@@ -6,6 +6,7 @@ from resources.security import AuthRequiredResource
 import status
 import datetime
 from app import db
+import pika
 
 class MessageListResource(AuthRequiredResource):
     def get(self):
@@ -40,6 +41,16 @@ class MessageListResource(AuthRequiredResource):
             msg_body = request_dict['msg_body']
 
             if msg_body[0] == '/':
+                bot_body = msg_body + "$" + str(id_user) + "#" + str(id_chatroom)
+
+                connection = pika.BlockingConnection(
+                    pika.ConnectionParameters(host='localhost')
+                )
+                channel = connection.channel()
+                channel.queue_declare(queue='financial')
+                channel.basic_publish(exchange='', routing_key='financial', body=bot_body)
+                print(" [x] Sent " + bot_body)
+                connection.close()
                 raise NotImplementedError     
 
             message = Message(
