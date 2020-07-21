@@ -18,6 +18,7 @@ db = SQLAlchemy()
 from models.user import User
 from models.message import Message
 from models.chatroom import Chatroom
+from models.blacklisted_token import BlacklistedToken
 
 def Create_app(config_filename):
     """ Creates and configures a flask app to be deployed.

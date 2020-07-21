@@ -6,6 +6,7 @@ from app import db
 from resources.security import AuthRequiredResource
 import status
 import datetime
+from flask_restful import Resource
 
 class ChatroomResource(AuthRequiredResource):
     def get(self, id):
@@ -17,7 +18,7 @@ class ChatroomResource(AuthRequiredResource):
             response = {"error": str(e)}
             return response, status.HTTP_400_BAD_REQUEST
 
-class ChatroomListResource(AuthRequiredResource):
+class ChatroomListResource(Resource):
     def get(self):
         try:
             chatrooms = Chatroom.query.all()
