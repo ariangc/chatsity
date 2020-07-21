@@ -25,7 +25,7 @@
       var submitMsg = async function(){
         console.log("clicking")
         var msg = document.getElementById("fmessage").value
-        const url = "http://localhost:9997/api/message"
+        const url = "http://54.83.145.92:9997/api/message"
         var body = {
           'id_user': {{user.id_user}},
           'id_chatroom': {{chatroom.id_chatroom}},
@@ -45,7 +45,7 @@
       };
 
       var chatrooms = async function(){
-        const url = "http://localhost:9997/api/chatroom";
+        const url = "http://54.83.145.92:9997/api/chatroom";
         var res = await fetch(url);
         var lst = await res.json();
         return lst.chatrooms;
@@ -54,7 +54,7 @@
       chatrooms().then(val => {
         head_info = document.getElementById("head-info");
         for(var x of val){
-          head_info.innerHTML += "<a ml-" + parseInt(x.id_chatroom)*1000 + "id=\"back\" href=\"http://localhost:9997/api/chat?id_chatroom=" + x.id_chatroom + "\">[Join chatroom " + x.id_chatroom + "]   </a>";
+          head_info.innerHTML += "<a ml-" + parseInt(x.id_chatroom)*1000 + "id=\"back\" href=\"http://54.83.145.92:9997/api/chat?id_chatroom=" + x.id_chatroom + "\">[Join chatroom " + x.id_chatroom + "]   </a>";
         }
         head_info.innerHTML += "<div id=\"email\" align=\"right\"> | Logged in as {{user.email}}</div>";
       });
@@ -70,7 +70,7 @@
       }
 
       var messages = async function (){
-        const url = "http://localhost:9997/api/bychatroom?id_chatroom=" + {{chatroom.id_chatroom}};
+        const url = "http://54.83.145.92:9997/api/bychatroom?id_chatroom=" + {{chatroom.id_chatroom}};
         var res = await fetch(url);
         var lst = await res.json();
         return lst.messages;
