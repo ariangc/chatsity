@@ -10,7 +10,6 @@
 __author__ = "Arian Gallardo"
 
 from models.user import User
-from models.blacklisted_token import BlacklistedToken
 from werkzeug.security import generate_password_hash, check_password_hash
 from resources.utils import password_policy
 from flask import request, jsonify, make_response, g, render_template
@@ -124,12 +123,6 @@ class VerifyTokenResource(Resource):
 
 class LogoutResource(Resource):
     def get(self):
-        print(g.user.token)
-        blacklisted_token = BlacklistedToken(token=g.user.token)
-
-        blacklisted_token.add(blacklisted_token)
-        db.session.commit()
-
         response = {
             'ok': 'Logged out succesfully.'
         }

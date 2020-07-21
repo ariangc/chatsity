@@ -25,7 +25,6 @@ class User(UserMixin, AddUpdateDelete, db.Model):
     email = db.Column(db.String(100), unique=True)
     name = db.Column(db.String(100))
     password = db.Column(db.String(100))
-    token = db.Column(db.String(512))
     messages = db.relationship("Message")
 
     def GenerateAuthToken(self, expiration = TOKEN_EXP_MINUTES):

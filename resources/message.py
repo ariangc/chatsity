@@ -50,7 +50,9 @@ class MessageListResource(AuthRequiredResource):
                 channel.basic_publish(exchange='', routing_key='financial', body=bot_body)
                 print(" [x] Sent " + bot_body)
                 connection.close()
-                raise NotImplementedError     
+
+                response = {"ok": "Message sent to bot successfully"}
+                return response, status.HTTP_200_OK
 
             message = Message(
                 body=msg_body, 

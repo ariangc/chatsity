@@ -1,5 +1,6 @@
 import pika
 import requests
+from requests.auth import HTTPBasicAuth
 from features import process_stock
 
 connection = pika.BlockingConnection(
@@ -18,7 +19,7 @@ def callback(ch, method, properties, body):
     id_chatroom_pos = body.find('#')
 
     response = ""
-    id_user = int(body[id_user + 1:id_chatroom_pos])
+    id_user = int(body[id_user_pos + 1:id_chatroom_pos])
     id_chatroom = int(body[id_chatroom_pos + 1:])
 
     if param_pos == -1:
@@ -33,11 +34,9 @@ def callback(ch, method, properties, body):
         else:
             response = 'Command %s not implemented.' % cmd
     
-    requests.put('https://localhost:9997/api/message', json={
-                                                            'id_user': id_user,
-                                                            'id_chatroom': id_chatroom,
-                                                            'msg_body': response
-                                                        })
+    body = {'id_user': id_user, 'id_chatroom': id_chatroom,'msg_body': response} 
+
+    requests.post('http://localhost:9997/api/message', json=body, auth=HTTPBasicAuth('ariangallardo21@gmail.com', 'Test_pwd21'))
 
 channel.basic_consume(
     queue='financial', on_message_callback=callback, auto_ack=True

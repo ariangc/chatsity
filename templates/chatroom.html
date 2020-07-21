@@ -81,10 +81,10 @@
         msgs = document.getElementById("msg-list");
         for(var x of val){
           if(x.sender === "{{user.name}}"){
-            msgs.innerHTML += "<b><div id=\"message\"> " + x.sender + " (" + x.timestamp + "): " + x.body  + " </div></b>";
+            msgs.innerHTML += "<b><div id=\"message\"> " + x.sender + " (" + x.timestamp + " GMT): " + x.body  + " </div></b>";
           }
           else{
-            msgs.innerHTML += "<div id=\"message\"> " + x.sender + " (" + x.timestamp + "): " + x.body  + " </div>";
+            msgs.innerHTML += "<div id=\"message\"> " + x.sender + " (" + x.timestamp + " GMT): " + x.body  + " </div>";
           }
         }
       }).catch(error => {
