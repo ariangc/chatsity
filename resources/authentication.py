@@ -3,7 +3,7 @@
 """
       authentication.py
       ----------
-      Handles authentication for users, storing and retrieving their information
+      Handles authentication resources for users, storing and retrieving their information
       from a database.
 """
 
@@ -20,7 +20,18 @@ from flask_restful import Resource
 from sqlalchemy.exc import SQLAlchemyError
 
 class SignupResource(Resource):
+    " Resource to register a new user to the system. "
     def post(self):
+        """ POST request handler for SignupResource. Creates a new
+            user on the database by their data. The necessary information
+            about the user is: email, password and name.
+
+            Return user information and an Authentication Token if creation
+            was successful. Returns an error otherwise.
+
+            In case of an error, HTTP status 400 (BAD_REQUEST) is returned.
+            Else, HTTP status 200 (OK) is returned.
+        """
         request_dict = request.get_json()
         if not request_dict:
             response = {"error": "No input data provided."}
@@ -67,7 +78,18 @@ class SignupResource(Resource):
             return response, status.HTTP_400_BAD_REQUEST
 
 class LoginResource(Resource):
+    " Resource to login a previously created user to the system. "
     def post(self):
+        """ POST request handler for LoginResource. Checks for a registered
+            user on the database for the corresponding credentials and retrieves
+            information of it in case of success.
+
+            Return user information and an Authentication Token if login
+            was successful. Returns an error otherwise.
+
+            In case of an error, HTTP status 400 (BAD_REQUEST) is returned.
+            Else, HTTP status 200 (OK) is returned.
+        """
         request_dict = request.get_json()
         if not request_dict:
             response = {"error": "No input data provided"}
@@ -108,7 +130,14 @@ class LoginResource(Resource):
         return response, status.HTTP_200_OK
 
 class VerifyTokenResource(Resource):
+    " Resource to verify HTTP token authenticity."
     def get(self):
+        """ GET request handler for VerifyTokenResource. Verifies if the
+            provided token is authentic and has not expired yet.
+
+            In case of an error, HTTP status 400 (BAD_REQUEST) is returned.
+            Else, HTTP status 200 (OK) is returned.
+        """
         request_dict = request.get_json()
         if not request_dict:
             response = {'error': 'No input data provided'}
@@ -122,7 +151,12 @@ class VerifyTokenResource(Resource):
         return response, status.HTTP_200_OK
 
 class LogoutResource(Resource):
+    " Resource to Logout from a session "
     def get(self):
+        """ GET requesto handler for LogoutResource. This was intended
+            to implement logout functionality. Declared for scalability
+            reasons.
+        """
         response = {
             'ok': 'Logged out succesfully.'
         }

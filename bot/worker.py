@@ -1,3 +1,17 @@
+#!/usr/bin/env python
+
+"""
+      worker.py
+      ----------
+      This modules implements the AMQP protocol for the bot using
+      pika, a lightweight implementation of a message broker for
+      python. It handles messages that could not be understood by
+      the bot. Once this module is executed, the bot will listen
+      to requests on the RabbitMQ default port.
+"""
+
+__author__ = "Arian Gallardo"
+
 import pika
 import requests
 from requests.auth import HTTPBasicAuth
@@ -12,8 +26,21 @@ channel = connection.channel()
 channel.queue_declare(queue='financial')
 
 def callback(ch, method, properties, body):
+    """ Handles AMQP requests from a producer.
+
+        :type ch: pika.adapters.blocking_connection.BlockingChannel
+        :param ch: Blocking Channel to establish connection from the producer.
+
+        :type method: pika.spec.Basic.Deliver
+        :param method: AMQP deliver method.
+
+        :type properties: pika.spec.BasicProperties
+        :param method: Properties of the AMQP connection.
+
+        :type body: bytes
+        :param body: Body of the message sent.
+    """
     body = body.decode('ascii')
-    print(body)
     param_pos = body.find('=')
     id_user_pos = body.find('$')
     id_chatroom_pos = body.find('#')

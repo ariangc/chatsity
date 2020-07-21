@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+
+"""
+    utils.py
+    ----------
+    This module contains utils for resources implementation.
+"""
+
+__author__ = "Arian Gallardo"
+
 from password_strength import PasswordPolicy
 
 password_policy = PasswordPolicy.from_names(

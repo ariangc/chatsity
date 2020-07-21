@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+
+"""
+      migrate.py
+      ----------
+      This module contains declarations to handle database migrations.
+"""
+
+__author__ = "Arian Gallardo"
+
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 from app import db

@@ -1,3 +1,14 @@
+#!/usr/bin/env python
+
+"""
+    message.py
+    ----------
+    This module implements the necessary functions to create and read
+    message information.
+"""
+
+__author__ = "Arian Gallardo"
+
 from models.user import User
 from models.message import Message
 from models.chatroom import Chatroom
@@ -9,7 +20,14 @@ from app import db
 import pika
 
 class MessageListResource(AuthRequiredResource):
+    "Resource to manage all messages information."
     def get(self):
+        """ GET request handler for MessageListResource. It retrieves
+            all message information from a chatroom given a chatroom id.
+
+            In case of an error, HTTP status 400 (BAD_REQUEST) is returned.
+            Else, HTTP status 200 (OK) is returned.
+        """
         request_dict = request.get_json()
         if not request_dict:
             response = {"error": "No input data provided."}
@@ -30,6 +48,18 @@ class MessageListResource(AuthRequiredResource):
         return response, status.HTTP_200_OK
 
     def post(self):
+        """ POST request handler for MessageListResource. It publishes a
+            new message from a user to a specific chatroom given user id
+            and chatroom id. 
+
+            It handles bot invoking requests. When a message is sent with
+            an slash character ('/') at the begginning, it calls the
+            decoupled bot requesting the information that should be obtained
+            from the command. Uses pika to produce this AMQP request.
+
+            In case of an error, HTTP status 400 (BAD_REQUEST) is returned.
+            Else, HTTP status 200 (OK) is returned.
+        """
         request_dict = request.get_json()
         if not request_dict:
             response = {"error": "No input data provided."}
@@ -71,7 +101,11 @@ class MessageListResource(AuthRequiredResource):
             return response, status.HTTP_400_BAD_REQUEST
 
 class GetByChatroom(AuthRequiredResource):
+    "Resource to get messages given a chatroom."
     def get(self):
+        """ GET request handler for GetByChatroom. It retrieves
+            last 50 messages information from a chatroom given a chatroom id.
+        """
         id_chatroom = int(request.args.get('id_chatroom'))
         messages = Message.query.filter_by(id_chatroom=id_chatroom).order_by(Message.timestamp.desc()).limit(50)
 
